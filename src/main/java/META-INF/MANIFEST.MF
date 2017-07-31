@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Class-Path: log4j-1.2-api-2.6.2.jar spring-core-4.3.8.RELEASE.jar fast
+ json-1.2.20.jar log4j-api-2.6.2.jar log4j-core-2.6.2.jar commons-logg
+ ing-1.2.jar slf4j-api-1.7.21.jar commons-io-2.5.jar log4j-slf4j-impl-
+ 2.6.2.jar
+Main-Class: 
+
