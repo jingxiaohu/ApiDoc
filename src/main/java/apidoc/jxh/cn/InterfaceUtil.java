@@ -392,6 +392,8 @@ public class InterfaceUtil {
   public static void isString(String key, String value, StringBuffer sb, int suojin,boolean douhao) {
     if (value == null) {
       value = "";
+    }else{
+      value = value.replaceAll("\"","'");
     }
     SuoJin(suojin, sb);
     sb.append("\"")
