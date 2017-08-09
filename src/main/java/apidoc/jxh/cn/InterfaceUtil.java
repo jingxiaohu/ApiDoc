@@ -292,7 +292,7 @@ public class InterfaceUtil {
               .append(key)
               .append("\"")
               .append(":");
-          isJSONArray(obj_json.getJSONArray(key), sb, suojin);
+          isJSONArray(obj_json.getJSONArray(key), sb, suojin,douhao);
         } else {
           isString(key, value.toString(), sb, suojin,douhao);
         }
@@ -339,7 +339,7 @@ public class InterfaceUtil {
       if (value instanceof JSONObject) {
         isJSONObject(obj_json.getJSONObject(key2), sb, suojin, douhao);
       } else if (value instanceof JSONArray) {
-        isJSONArray(obj_json.getJSONArray(key2), sb, suojin);
+        isJSONArray(obj_json.getJSONArray(key2), sb, suojin,douhao);
       } else {
         isString(key2, value.toString(), sb, suojin,douhao);
       }
@@ -355,7 +355,7 @@ public class InterfaceUtil {
   /**
    * 解析JSON字符串 然后进行组装----递归使用
    */
-  public static void isJSONArray(JSONArray obj_array, StringBuffer sb, int suojin) {
+  public static void isJSONArray(JSONArray obj_array, StringBuffer sb, int suojin,boolean douhao_father) {
     if (obj_array == null) {
       obj_array = new JSONArray();
     }
@@ -379,6 +379,9 @@ public class InterfaceUtil {
     }
     SuoJin(temp, sb);
     sb.append("]");
+    if (douhao_father) {
+      sb.append(",");
+    }
     sb.append("\r\n");
   }
 
@@ -421,15 +424,23 @@ public class InterfaceUtil {
     javaType = javaType.substring(javaType.lastIndexOf(".")+1);
       switch(javaType){
         case "Integer":return "整型";
+        case "int":return "整型";
         case "String":return "字符串";
         case "Long": return "长整型";
+        case "long": return "长整型";
         case "Date":return "日期类型";
-        case "Double":return "双精度double类型";
+        case "Double":return "双精度Double类型";
+        case "double":return "双精度double类型";
         case "Float":return " 单精度float类型";
+        case "float":return " 单精度float类型";
         case "Boolean":return "Boolean类型";
+        case "boolean":return "boolean类型";
         case "Byte":return "字节类型";
+        case "byte":return "字节类型";
         case "Number":return "小数类型";
         case "Character":return "字符类型";
+        case "Char":return "字符Char类型";
+        case "char":return "字符char类型";
         default:
           return "字符串";
       }
