@@ -2,6 +2,7 @@ package apidoc.jxh.cn;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -149,7 +150,7 @@ public class InterfaceUtil {
     }
 
     sb.append("| sign| MD5数字签名(" + signIntro.replace("\"", "").replace("\'", "")
-        + ")按参数的首字母升序顺序进行组装| 否| 无 |字符串|");
+        + ")按参数的首字母升序顺序进行组装| 否| 无 |字符串|---|");
     sb.append("\r\n");
     sb.append("#### 请求路径");
     sb.append("\r\n");
@@ -231,7 +232,7 @@ public class InterfaceUtil {
     for (Field f : field) {
       InterfaceParam pp = new InterfaceParam();
       pp.KEY = f.getName();
-      pp.TYPE = f.getGenericType().toString();
+      pp.TYPE = TypeToHanzi(f.getGenericType().toString());
       pp.VALUE = "";
       TargetComment t = (TargetComment) f.getAnnotation(TargetComment.class);
       if (t == null) {
@@ -414,6 +415,27 @@ public class InterfaceUtil {
       sb.append("	");
     }
   }
+
+  public static   String  TypeToHanzi(String javaType){
+//    javaType = javaType.toLowerCase();
+    javaType = javaType.substring(javaType.lastIndexOf(".")+1);
+      switch(javaType){
+        case "Integer":return "整型";
+        case "String":return "字符串";
+        case "Long": return "长整型";
+        case "Date":return "日期类型";
+        case "Double":return "双精度double类型";
+        case "Float":return " 单精度float类型";
+        case "Boolean":return "Boolean类型";
+        case "Byte":return "字节类型";
+        case "Number":return "小数类型";
+        case "Character":return "字符类型";
+        default:
+          return "字符串";
+      }
+
+  }
+
 
   class MyComparator implements Comparator<String> {
 
