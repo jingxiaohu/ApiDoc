@@ -167,7 +167,7 @@ public class InterfaceUtil {
 
     //这里写文件
     FileUtils.writeStringToFile(file, sb.toString(), "UTF-8", true);
-
+//    FileUtils.writeStringToFile(file, sb.toString(), "GBK", true);
   }
 
   /**
@@ -337,8 +337,16 @@ public class InterfaceUtil {
         value = "";
       }
       if (value instanceof JSONObject) {
+        sb.append("\"")
+                .append(key2)
+                .append("\"")
+                .append(":");
         isJSONObject(obj_json.getJSONObject(key2), sb, suojin, douhao);
       } else if (value instanceof JSONArray) {
+        sb.append("\"")
+                .append(key2)
+                .append("\"")
+                .append(":");
         isJSONArray(obj_json.getJSONArray(key2), sb, suojin,douhao);
       } else {
         isString(key2, value.toString(), sb, suojin,douhao);
