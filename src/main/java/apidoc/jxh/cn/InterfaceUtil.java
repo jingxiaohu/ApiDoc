@@ -63,15 +63,15 @@ public class InterfaceUtil {
           pp.VALUE = "";
         }
         map.put(entry.getKey(), pp);
-      } else {
-        //移除该次接口没有涉及到的参数
-        map.remove(entry.getKey());
       }
     }
 
     for (Entry<String, InterfaceParam> entry : map.entrySet()) {
       System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
       InterfaceParam pp = map.get(entry.getKey());
+      if(params.get(entry.getKey()) == null){
+        continue;
+      }
       String str = "|%s|%s|%s|%s|%s|%s|";
       str = String.format(str, pp.KEY, pp.DESC, pp.ISNULL, pp.LENGTH, pp.TYPE, pp.VALUE);
       sb.append(str);
@@ -207,14 +207,15 @@ public class InterfaceUtil {
           pp.VALUE = "";
         }
         map.put(entry.getKey(), pp);
-      }else{
-        map.remove(entry.getKey());
       }
     }
 
     for (Entry<String, InterfaceParam> entry : map.entrySet()) {
       System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
       InterfaceParam pp = map.get(entry.getKey());
+      if(params.get(entry.getKey()) == null){
+         continue;
+      }
       String str = "|%s|%s|%s|%s|%s|%s|";
       str = String.format(str, pp.KEY, pp.DESC, pp.ISNULL, pp.LENGTH, pp.TYPE, pp.VALUE);
       sb.append(str);
