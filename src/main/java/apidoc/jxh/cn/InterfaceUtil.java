@@ -169,7 +169,78 @@ public class InterfaceUtil {
     FileUtils.writeStringToFile(file, sb.toString(), "UTF-8", true);
 //    FileUtils.writeStringToFile(file, sb.toString(), "GBK", true);
   }
+  /**
+   * @param modeName ：模块名称 例如：1.活动管理模块
+   * @param interfaceName： 接口中文名称：例如：获取优先的活动
+   * @param signIntro：需要进行签名的参数说明 例如：dtype+ui_id
+   * @param url：请求地址 例如：http://app.qc-wbo.com/v1/weight_activity.php
+   * @param num：接口编号 例如：1
+   */
+  public static void AddInterfacePred_limit(String FileAbpath, String modeName, String interfaceName,
+                                      String signIntro, String url, int num, MultiValueMap<String, String> params,
+                                      Class<?> paramBean, String result) throws Exception {
+    File file = new File(FileAbpath);
+//		StringBuffer sb =  readInterfaceFile2(file);
+    StringBuffer sb = null;
+    if (sb == null) {
+      sb = new StringBuffer();
+    }
+    if (num == 1) {
+      sb.append("[[_TOC_]]");
+      sb.append("\r\n");
+      sb.append("### " + modeName + "");
+    }
+    sb.append("\r\n");
+    sb.append("#### " + num + "->" + interfaceName + "");
+    sb.append("\r\n");
+    sb.append("|参数名称|值描述|是否可空|限制长度|参数类型|举例|");
+    sb.append("\r\n");
+    sb.append("|--------|-----|----|--------|-------|-----|");
+    sb.append("\r\n");
+    Map<String, InterfaceParam> map = ReadParamClass(paramBean);
+    for (Entry<String, List<String>> entry : params.entrySet()) {
+      System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+      InterfaceParam pp = map.get(entry.getKey());
+      if (pp != null) {
+        pp.VALUE = entry.getValue().get(0);
+        if (pp.VALUE == null) {
+          pp.VALUE = "";
+        }
+        map.put(entry.getKey(), pp);
+      }else{
+        map.remove(entry.getKey());
+      }
+    }
 
+    for (Entry<String, InterfaceParam> entry : map.entrySet()) {
+      System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+      InterfaceParam pp = map.get(entry.getKey());
+      String str = "|%s|%s|%s|%s|%s|%s|";
+      str = String.format(str, pp.KEY, pp.DESC, pp.ISNULL, pp.LENGTH, pp.TYPE, pp.VALUE);
+      sb.append(str);
+      sb.append("\r\n");
+    }
+
+    sb.append("| sign| MD5数字签名(" + signIntro.replace("\"", "").replace("\'", "")
+            + ")按参数的首字母升序顺序进行组装| 否| 无 |字符串|---|");
+    sb.append("\r\n");
+    sb.append("#### 请求路径");
+    sb.append("\r\n");
+    sb.append("[" + url + "](" + url + ")");
+    sb.append("\r\n");
+    sb.append("###### 返回结果");
+    sb.append("\r\n");
+    sb.append("```json");
+    sb.append("\r\n");
+    StrToJson(result, sb);
+    sb.append("\r\n");
+    sb.append("```");
+    sb.append("\r\n");
+
+    //这里写文件
+    FileUtils.writeStringToFile(file, sb.toString(), "UTF-8", true);
+//    FileUtils.writeStringToFile(file, sb.toString(), "GBK", true);
+  }
   /**
    * 文件读取
    */
